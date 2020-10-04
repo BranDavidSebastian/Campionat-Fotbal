@@ -1,0 +1,109 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+<html>
+<head>
+<style>
+
+h2 {
+  color: #479761;
+  margin-left: 40px;
+  text-align: center;
+
+}
+</style>
+</head>
+</html>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'campionat:index' %}">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:clasament' etapa %}">Clasament<span
+                    class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:meciuri' 1 %}">Meciuri<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:echipe' %}">Echipe<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:valoare' %}">Valoare totala<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="btn-group mt-3 mb-1" role="group">
+        {% if etapa > 1 %}
+        <a class="btn btn-success" href="{% url 'campionat:meciuri' 1 %}" role="button" aria-pressed="true">&lt;&lt;
+            Prima etapa</a>
+        {% else %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:meciuri' 1 %}" role="button"
+            aria-disabled="true">&lt;&lt;
+            Prima etapa</a>
+        {% endif %}
+        {% if etapa > 1 %}
+        <a class="btn btn-success" href="{% url 'campionat:meciuri' etapaAnterioara %}" role="button"
+            aria-pressed="true">&lt;
+            Etapa anterioara</a>
+        {% else %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:meciuri' etapa %}" role="button"
+            aria-disabled="true">&lt;
+            Etapa anterioara</a>
+        {% endif %}
+    
+        {% if etapa >= totalEtape %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:meciuri' etapa %}" role="button" aria-disabled="true">
+            Etapa urmatoare &gt;</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'campionat:meciuri' etapaUrmatoare %}" role="button" aria-pressed="true">
+            Etapa urmatoare &gt;</a>
+        {% endif %}
+        {% if etapa >= totalEtape %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:meciuri' totalEtape %}" role="button"
+            aria-disabled="true">
+            Ultima etapa &gt;&gt;</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'campionat:meciuri' totalEtape %}" role="button" aria-pressed="true">
+            Ultima etapa &gt;&gt;</a>
+        {% endif %}
+    </div>
+
+        <div class="container">
+        {% if etapa == 0 %}
+            <h2 >Inceputul Campionatului </h2>
+        {% else %}
+            <h2>Etapa {{etapa}} </h2>
+        {% endif %}
+    </div>
+
+<table class="table table-sm">
+    <thead>
+        <tr class="d-flex">
+            <th class="col-5 text-center">Gazda</th>
+            <th class="col text-center">Scor</th>
+            <th class="col-5 text-center">Oaspete</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        {%for meci in meciuri%}
+        <tr class="d-flex">
+            <td class="col-5 text-center">{{meci.gazda}}</td>
+            <td class="col text-center">{{meci.scor}}</td>
+            <td class="col-5 text-center">{{meci.oaspete}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+</div>

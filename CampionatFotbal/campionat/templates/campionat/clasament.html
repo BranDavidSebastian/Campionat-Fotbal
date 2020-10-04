@@ -1,0 +1,138 @@
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+<html>
+<head>
+<style>
+
+
+h2 {
+  color: #479761;
+  margin-left: 40px;
+  text-align: center;
+
+</style>
+</head>
+</html>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'campionat:index' %}">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:clasament' etapa %}">Clasament<span
+                    class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:meciuri' 1 %}">Meciuri<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:echipe' %}">Echipe<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:valoare' %}">Valoare totala<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="btn-group mt-3 mb-1" role="group">
+        {% if etapa > 0 %}
+        <a class="btn btn-success" href="{% url 'campionat:clasament' 0 %}" role="button" aria-pressed="true">&lt;&lt;
+            Prima etapa</a>
+        {% else %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:clasament' 0 %}" role="button"
+            aria-disabled="true">&lt;&lt;
+            Prima etapa</a>
+        {% endif %}
+        {% if etapa > 0 %}
+        <a class="btn btn-success" href="{% url 'campionat:clasament' etapaAnterioara %}" role="button"
+            aria-pressed="true">&lt;
+            Etapa anterioara</a>
+        {% else %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:clasament' etapa %}" role="button"
+            aria-disabled="true">&lt;
+            Etapa anterioara</a>
+        {% endif %}
+    
+        {% if etapa >= totalEtape %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:clasament' etapa %}" role="button" aria-disabled="true">
+            Etapa urmatoare &gt;</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'campionat:clasament' etapaUrmatoare %}" role="button" aria-pressed="true">
+            Etapa urmatoare &gt;</a>
+        {% endif %}
+        {% if etapa >= totalEtape %}
+        <a class="btn btn-success disabled" href="{% url 'campionat:clasament' totalEtape %}" role="button"
+            aria-disabled="true">
+            Ultima etapa &gt;&gt;</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'campionat:clasament' totalEtape %}" role="button" aria-pressed="true">
+            Ultima etapa &gt;&gt;</a>
+        {% endif %}
+    </div>
+
+    <form action="{% url 'campionat:filter' etapa%}">
+        <div class="form-row">
+            <div class="col-auto">
+            <select class="form-control" name="criteriu">
+                <option>Punctaj ></option>
+                <option>Punctaj <</option>
+                <option>Goluri inscrise</option>
+                <option>Goluri primite</option>
+            </select>
+            </div>
+
+            <div class="col-1">
+                <input type="text" class="form-control" name="valoare">
+            </div>
+            <div class="col-auto"><button type="submit" class="btn btn-success">Filtreaza</button></div>
+        </div>
+    </form>
+
+
+    <div class="container">
+        {% if etapa == 0 %}
+            <h2 >Inceputul Campionatului </h2>
+        {% else %}
+            <h2>Etapa {{etapa}} </h2>
+        {% endif %}
+    </div>
+<table class="table table-sm">
+    <thead>
+        <tr class="d-flex">
+            <th class="col-1">Poz</th>
+            <th class="col">Echipa</th>
+            <th class="col-1">M</th>
+            <th class="col-1">V</th>
+            <th class="col-1">E</th>
+            <th class="col-1">I</th>
+            <th class="col-1">GM</th>
+            <th class="col-1">GP</th>
+            <th class="col-1">P</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for echipa in clasament%}
+        <tr class="d-flex">
+            <td class="col-1">
+    {{forloop.counter}}</td>
+            <td class="col">{{echipa.echipa}}</td>
+            <td class="col-1">{{echipa.etapa}}</td>
+            <td class="col-1">{{echipa.victorii}}</td>
+            <td class="col-1">{{echipa.egaluri}}</td>
+            <td class="col-1">{{echipa.infrangeri}}</td>
+            <td class="col-1">{{echipa.goluri_inscrise}}</td>
+            <td class="col-1">{{echipa.goluri_primite}}</td>
+            <td class="col-1">{{echipa.punctaj}}</td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+</div>

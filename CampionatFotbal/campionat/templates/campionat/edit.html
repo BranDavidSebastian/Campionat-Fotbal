@@ -1,0 +1,65 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'campionat:index' %}">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:clasament' 0 %}">Clasament<span
+                    class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:meciuri' 1 %}">Meciuri<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:echipe' %}">Echipe<span class="sr-only">(current)</span></a>
+        </li>
+                <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:valoare' %}">Valoare totala<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="list-group">
+                {% for echipa in echipe %}
+                <a href="{% url 'campionat:echipa' echipa.id %}"
+                    class="list-group-item list-group-item-action">{{echipa.nume}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    {{echipa.nume}}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Antrenor: {{echipa.antrenor}}</h5>
+                        </div>
+                    </div>
+
+                    <form action="{% url 'campionat:edit' jucator.id %}">
+                        Jucator: {{jucator.nume}}
+                        <div class="form-group">
+                            <label for="valoare">Valoare</label>
+                            <input type="text" class="form-control" id="valoare" name="valoare" value="{{jucator.valoare}}">
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <a href="{% url 'campionat:echipa' echipa.id%}" class="btn btn-danger">Inapoi</a>
+                    </form>
+                </div>
+            </div>
+            <a href="{% url 'campionat:echipe' %}" class="btn btn-danger">Cancel</a>
+        </div>
+    </div>
+</div>

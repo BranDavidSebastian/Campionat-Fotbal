@@ -1,0 +1,48 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+    crossorigin="anonymous"></script>
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'campionat:index' %}">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:clasament' 0 %}">Clasament<span
+                    class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:meciuri' 1 %}">Meciuri<span
+                    class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:echipe' %}">Echipe<span class="sr-only">(current)</span></a>
+        </li>
+                <li class="nav-item active">
+            <a class="nav-link" href="{% url 'campionat:valoare' %}">Valoare totala<span class="sr-only">(current)</span></a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="list-group">
+                {% for echipa in echipe %}
+                <a href="{% url 'campionat:echipa' echipa.id %}" class="list-group-item list-group-item-action">{{echipa.nume}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
